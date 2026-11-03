@@ -1,0 +1,98 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+class phuongtien{
+	private:
+		int maxe;
+		string loaixe;
+		int giovao;
+		int tgdo;
+	public:
+		phuongtien();
+		phuongtien(int ma, string loai, int gio, int tg);
+		
+		int laymaxe() const;
+		string layloaixe() const;
+		double tinhphi() const;
+		void hienthi() const;
+// const: doc thong tin khong thay doi du lieu
+};
+// 1. Ham khoi tao mac dinh (khi tao xe rong, chua nhap thông tin)
+phuongtien::phuongtien(){
+	maxe = 0;
+	loaixe = "";
+	giovao = 0;
+	tgdo = 0;
+}
+// 2. Ham khoi tao có tham so (khi tao xe có san thông tin nhap vào)
+phuongtien::phuongtien(int ma, string loai, int gio, int tg){
+	maxe = ma;
+	loaixe = loai;
+	giovao = gio;
+	tgdo = tg;
+}
+// Viet hai ham de lay thong tin
+int phuongtien::laymaxe() const {
+	return maxe; // Tra ve gia tri cua maxe
+}
+string phuongtien::layloaixe() const {
+	return loaixe; // Tra ve chu "car",...
+}
+double phuongtien::tinhphi() const {
+	double dongia = 0;
+	if (loaixe == "car" || loaixe == "Car") {
+		dongia = 6.0;
+	}
+	else if (loaixe == "motorcycle" || loaixe == "Motorcycle") {
+		dongia = 4.0;
+	}
+	else if (loaixe == "bicycle" || loaixe == "Bicycle") {
+		dongia = 2.0;
+	}
+// bool (boolean): nhan 1 trong 2 gia tri true/false
+	bool giocaodiem = (giovao >= 6 && giovao <= 9) || (giovao >= 15 && giovao <= 18);
+	double tongtien = 0;
+
+// kiem tra xem tgian do la bao nhieu, "?" la hoi true/false, neu true thi tra ve thgian do, ":" la false thi tra ve 2
+	int giodau = (tgdo < 2) ? tgdo : 2;
+
+	if (giocaodiem) {
+		tongtien = giodau * (dongia + dongia * 0.3); 
+	} else {
+		tongtien = giodau * (dongia - dongia * 0.05);
+	}
+
+	if (tgdo > 2) {
+		int gioconlai = tgdo - 2;
+		tongtien += gioconlai * (dongia - dongia * 0.1);
+// tongtien = tongtien + gioconlai * (dongia - dongia * 0.1)	
+	}
+		return tongtien;
+}
+void phuongtien::hienthi() const {
+    cout << "Ma xe: " << maxe 
+         << " | Loai xe: " << loaixe 
+         << " | Gio vào: " << giovao << "h"
+         << " | Thoi gian do: " << tgdo << "h"
+         << " | Phí do: $" << tinhphi() << endl;
+}
+
+class baixe {
+	private:
+// khai bao 3 chiec xe (pt1, pt2, pt3) don le, va 3 bien co bool de xem co cho do xe hay chua		
+		int mabai;
+		char kichthuoc;
+		phuongtien pt1, pt2, pt3;
+		bool co1, co2, co3;
+	public:
+		baixe();					// Ham tao mac dinh
+		baixe(int ma, char kt);	    // Ham tao co tham so
+		
+		int layma() const;			// Lay ma bai xe
+		bool them (phuongtien v);	// Them phuong tien v vao bai
+		bool xoa (int maxe);		// Xoa xe co 'maxe' khoi bai
+		bool chua (int maxe) const;	// Kiem tra xem xe co 'maxe' co o trong bai khong
+		void hienthi() const;		// In thong tin toan bo bai xe
+		bool coloai (string loai, int& dem, double& tong) const;	
+};
